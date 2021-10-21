@@ -2,11 +2,15 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 // On importe le middleware chargé d'enregistrer les appels d'API
 const loggerMiddleware = require('./middlewares/logger')
 
 const app = express()
+
+// Autoriser les requêtes depuis le front React (Access Control Allow Origin)
+app.use(cors())
 
 // On dit a Express d'utiliser le middleware
 app.use(loggerMiddleware)
@@ -49,6 +53,7 @@ app.use(router)
 // Déclaration des routes d'API principales
 app.use('/countries', require('./routes/countries'))
 app.use('/restaurants', require('./routes/restaurants'))
+app.use('/dishes', require('./routes/dishes'))
 app.use('/auth', require('./routes/users/auth'))
 app.use('/me', require('./routes/users'))
 
