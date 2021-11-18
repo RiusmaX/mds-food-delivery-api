@@ -9,28 +9,52 @@
 const router = require('express').Router()
 
 const Dish = require('../../models/Dish')
+const Restaurant = require('../../models/Restaurant')
 
 router.route('/')
   .get((req, res) => {
-    Dish.find((error, result) => {
-      if (error) return res.status(500).send('Database Error')
-      return res.send(result)
-    })
+    // Récupération des plats pour 1 restaurant donné
+    const id = req.query.id
+    // console.log(req.params)
+    if (id) {
+      Dish.find({ restaurant: id }, (error, result) => {
+        if (error) return res.status(500).send('Database Error')
+        return res.send(result)
+      })
+    } else {
+      Dish.find((error, result) => {
+        if (error) return res.status(500).send('Database Error')
+        return res.send(result)
+      })
+    }
   })
   .post((req, res) => {
-    const { body: { name, description, price, category } } = req
+    const { body: { name, description, price, category, restaurant } } = req
 
-    if (!name || !price || !category) return res.status(500).send('Missing data')
+    if (!name || !price || !category || !restaurant) return res.status(500).send('Missing data')
 
     const dish = new Dish({
-      name, description, price, category
+      name, description, price, category, restaurant
     })
 
     dish.save((error, result) => {
       if (error) return res.status(500).send(error)
-      Dish.find((error, result) => {
-        if (error) return res.status(500).send('Database Error')
-        return res.send(result)
+
+      // Lien vers le restaurant
+      // On récpère le restaurant
+      Restaurant.findById(restaurant, (error, resto) => {
+        if (error) return res.status(500).send(error)
+        // On ajoute le plat dans le restaurant
+        resto.dishes.push(dish)
+        // On enregistre le restaurant
+        resto.save((error, result) => {
+          if (error) return res.status(500).send(error)
+          // On envoit la liste des plats
+          Dish.find((error, result) => {
+            if (error) return res.status(500).send('Database Error')
+            return res.send(result)
+          })
+        })
       })
     })
   })

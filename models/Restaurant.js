@@ -11,7 +11,11 @@ const RestaurantSchema = Schema({
   description: {
     type: String,
     required: false
-  }
+  },
+  dishes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Dish'
+  }]
 }, { timestamps: true })
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema)

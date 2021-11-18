@@ -20,7 +20,7 @@ router.route('/') // Correspond à /restaurants
   .post((req, res) => {
     // Extraction des paramètres du corps de la requête
     const { body } = req
-    const { name, description } = body
+    const { name, description, dishes } = body
 
     // Validation des paramètres du corps de la requête
     if (!name) return res.status(500).send('Name is missing')
@@ -28,7 +28,8 @@ router.route('/') // Correspond à /restaurants
 
     const restaurant = new Restaurant({
       name: name,
-      description: description
+      description: description,
+      dishes
     })
 
     restaurant.save((error, result) => {

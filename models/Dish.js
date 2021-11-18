@@ -20,6 +20,11 @@ const DishSchema = Schema({
     type: String,
     required: true,
     enum: ['starter', 'dish', 'dessert', 'drink']
+  },
+  restaurant: {
+    type: Schema.Types.ObjectId,
+    ref: 'Restaurant',
+    required: true
   }
 }, { timestamps: true })
 
