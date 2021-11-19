@@ -57,6 +57,7 @@ app.use('/dishes', require('./routes/dishes'))
 app.use('/auth', require('./routes/users/auth'))
 app.use('/me', require('./routes/users'))
 app.use('/payment', require('./routes/payment'))
+app.use('/order', require('./routes/order'))
 
 // Lancement du server
 app.listen(port, () => {
