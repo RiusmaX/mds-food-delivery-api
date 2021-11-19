@@ -22,8 +22,8 @@ router.route('/create-session')
         }),
         mode: 'payment',
         customer_email: formData.email,
-        success_url: 'http://localhost:3000/success',
-        cancel_url: 'http://localhost:3000/cancel'
+        success_url: 'https://vast-savannah-63414.herokuapp.com/success',
+        cancel_url: 'https://vast-savannah-63414.herokuapp.com/cancel'
       })
       return res.send(session)
     } catch (error) {
