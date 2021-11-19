@@ -30,7 +30,7 @@ const mongoDbConnectionString =
 
 // Lancement de la connexion à la base de données avec les paramètres précédents
 mongoose.connect(mongoDbConnectionString, null, error => {
-  if (error) throw Error
+  if (error) throw new Error(error)
 })
 
 // Récupération de la connexion
@@ -56,6 +56,7 @@ app.use('/restaurants', require('./routes/restaurants'))
 app.use('/dishes', require('./routes/dishes'))
 app.use('/auth', require('./routes/users/auth'))
 app.use('/me', require('./routes/users'))
+app.use('/payment', require('./routes/payment'))
 
 // Lancement du server
 app.listen(port, () => {
