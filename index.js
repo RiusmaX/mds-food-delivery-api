@@ -16,6 +16,7 @@ const upload = multer({ storage: storage })
 
 // On importe le middleware chargé d'enregistrer les appels d'API
 const loggerMiddleware = require('./middlewares/logger')
+const { response } = require('express')
 
 const app = express()
 
@@ -60,9 +61,10 @@ app.get('/', (req, res) => {
   res.send('Coucou !')
 })
 
-app.post('/upload', upload.single('file-upload'), function (req, res, next) {
+app.post('/upload', upload.single('file'), function (req, res, next) {
   console.log(req.file)
   console.log(req.body)
+  return res.send(req.file)
 })
 
 // Utilisation du router par Express
